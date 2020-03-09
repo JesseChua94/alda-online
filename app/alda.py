@@ -6,12 +6,12 @@ router = APIRouter()
 def get_alda():
     """ Verifies Alda code given from client and processes it into a midi file.
 
-    
+
     """
     pass
 
 
-def process_alda_():
+def process_alda():
     """Call a subprocess to run Alda server on given Alda code.
 
     Args:
