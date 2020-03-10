@@ -1,14 +1,19 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
+from pydantic import BaseModel
 
 router = APIRouter()
 
-@router.get("/")
-def get_alda():
+class PostAldaCode(BaseModel):
+    data: str = None
+
+
+@router.post("/")
+async def post_alda(response: PostAldaCode):
     """ Verifies Alda code given from client and processes it into a midi file.
-
-
     """
-    pass
+    print(response)
+
+    return 200
 
 
 def process_alda():
