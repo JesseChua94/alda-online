@@ -4,20 +4,9 @@
  */
 function onClick() {
     let aldaInput = document.getElementById("alda-input");
-    let data = aldaInput.value;
-    //let data = getAudio(aldaInput.value);
-    fetch('/alda',
-    {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({'data': data})
-    }).then(() => {
-
-    })
-    .catch((err) => {})
+    let aldaCode = aldaInput.value;
+    getAudio(aldaCode);
+    
         
     return;
 }
@@ -31,6 +20,29 @@ function onClick() {
  * either the error that occurred or a string representing the file path for the mp3 file.
  */
 function getAudio(aldaCode) {
+    fetch('/alda',
+    {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'data': aldaCode})
+    }).then(
+        function(response) {
+            if (response.status !== 200) {
+                return;
+            }
+            console.log('in response');
+            console.log(response)
+            response.json().then(function(data) {
+            console.log(data);
+            });
+        }
+    )
+    .catch(function(err) {
+        console.log('Fetch Error :-S', err);
+    });
     
     return;
 }
