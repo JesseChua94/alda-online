@@ -5,10 +5,10 @@
 function onClick() {
     let aldaInput = document.getElementById("alda-input");
     let aldaCode = aldaInput.value;
-    getAudio(aldaCode);
-    
-        
-    return;
+    postAudio(aldaCode).then((file_path) => {
+        let audio = document.getElementById("alda-audio");
+        audio.setAttribute("src", file_path);
+    });
 }
 
 
@@ -19,8 +19,8 @@ function onClick() {
  * @returns {object} response - A response object from the server with
  * either the error that occurred or a string representing the file path for the mp3 file.
  */
-function getAudio(aldaCode) {
-    fetch('/alda',
+function postAudio(aldaCode) {
+    return fetch('/alda',
     {
         method: 'post',
         headers: {
@@ -28,24 +28,33 @@ function getAudio(aldaCode) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({'data': aldaCode})
-    }).then(
-        function(response) {
-            if (response.status !== 200) {
-                return;
-            }
-            console.log('in response');
-            console.log(response)
-            response.json().then(function(data) {
-            console.log(data);
-            });
-        }
-    )
+    })
+    .then(response => postAudioResponse(response))
     .catch(function(err) {
-        console.log('Fetch Error :-S', err);
+        console.log('Error with fetch', err);
     });
-    
-    return;
 }
+
+
+/**
+ * Handle response from postAudio call and update DOM.
+ * @param {obj} response - HTTP response object from server.
+ */
+function postAudioResponse(response) {
+    if (response.status !== 200) {
+        console.log('Error with Server');
+        return; // #TODO return something here
+    }
+
+    response.json().then(function(data) {
+        if (data['status'] !== 200) {
+            console.log('Error with client input.');
+            return; // #TODO return something here
+        }
+        return data['data'];
+    });
+}
+
 
 /**
  * Updates HTML audio tag to play the most recent mp3 file.
@@ -53,6 +62,6 @@ function getAudio(aldaCode) {
  * @returns {object} response - A response object of whether the DOM was 
  * updated successfully or not.
  */
-function setAudio(filePath) {
+function setAudioPath(filePath) {
     return;
 }

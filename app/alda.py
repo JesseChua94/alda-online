@@ -1,41 +1,40 @@
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel
 
-from os import path
+import os
 import subprocess
+
+from models import PostResponseAlda, PostRequestAlda
+
 
 router = APIRouter()
 
-class PostRequestAlda(BaseModel):
-    data: str
-
-
 @router.post("/")
-async def post_alda(response: PostRequestAlda):
-    """ Verifies Alda code given from client and processes it into a midi file.
-    """
-    response = process_alda(response.data)
-    #call subprocess on response in try/except
-    #raise HTTPException(status_code=200, detail="ITS AN ERROR")
-    return {"detail": "/test.midi"}
-
-
-def process_alda(alda_code):
-    """Call a subprocess to run Alda server on given Alda code.
+async def post_alda(post_body: PostRequestAlda):
+    """ Runs Alda server on given Alda code from client.
 
     Args:
-        alda_code (str): Syntactically correct Alda code.
-    
+        post_body (PostRequestAlda): Request body with Alda code from client.
+        request (Request): Request object to get base url from.
     Return:
-        Midi file (obj): Midi file returned by Alda server.
+        response (PostResponseAlda): Response body including Alda server response.
 
+    TODO:
+        -Find a better way to pass base url here. Possibly an app config var
     """
+    alda_code = post_body.data
+    file_path = os.path.dirname(os.path.realpath(__file__)) + '/static/alda_output'
     result = subprocess.run(['alda', 'export', '--code', alda_code, 
-                            '-o', 'alda_output.mid', '-F', 'midi'], 
+                            '-o', file_path + '.mid', '-F', 'midi'], 
                             stdout=subprocess.PIPE)
-    if os.path.isfile('/alda_output.mid'):
-        response =  {'data': '/alda_output.mid'}
-    else:
-        response = {'data': result.stdout.decode()}
+
     
+    #timidity test.midi -Ow -o - | lame - -b 64 test.mp3
+
+    if os.path.isfile(file_path + '.mp3'):
+        response =  {'data': file_path + '.mp3',
+                     'status': 200}
+    else:
+        response = {'data': result.stdout.decode(),
+                    'status': 400}
     return response
+    
