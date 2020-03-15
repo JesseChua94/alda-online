@@ -3,7 +3,7 @@ from fastapi.routing import get_name
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-
+import os
 
 from alda import router as alda_router
 
@@ -23,7 +23,8 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get('/')
 async def index(request: Request):
-
+    os.environ['BASE_URL'] = str(request.base_url)
+    
     return templates.TemplateResponse('index.html', 
                                      {'request': request})
 

@@ -22,7 +22,7 @@ async def post_alda(post_body: PostRequestAlda):
         -Find a better way to pass base url here. Possibly an app config var
     """
     alda_code = post_body.data
-    file_path = os.path.dirname(os.path.realpath(__file__)) + '/static/alda_output'
+    file_path = os.getenv('BASE_URL') + 'static/alda_output'
     result = subprocess.run(['alda', 'export', '--code', alda_code, 
                             '-o', file_path + '.mid', '-F', 'midi'], 
                             stdout=subprocess.PIPE)
@@ -36,5 +36,7 @@ async def post_alda(post_body: PostRequestAlda):
     else:
         response = {'data': result.stdout.decode(),
                     'status': 400}
-    return response
+    #return response
+    return {'data': file_path + '.mp3',
+                     'status': 200}
     

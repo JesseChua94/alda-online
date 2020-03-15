@@ -12,8 +12,10 @@ async function onClick() {
             return; // #TODO return something here
         }
 
-        let audio = document.getElementById("alda-audio");
-        audio.setAttribute("src", data['data']);
+        let audioControls = document.getElementById("audio-controls");
+        audioControls.setAttribute("src", data['data']);
+        let audioSrc = audioControls.innerHTML
+        audioControls.innerHTML = audioSrc;
     } catch(error) {
         console.log("Error processing request: " + error.toString());
     }
