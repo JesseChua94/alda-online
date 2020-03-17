@@ -7,6 +7,9 @@ class TextInput extends React.Component {
       input: ""
     };
   }
+  handleClick = () => {
+    this.props.handleClick(this.state.input);
+  }
 
   handleChange = (event) => {
     this.setState({
@@ -22,7 +25,7 @@ class TextInput extends React.Component {
             <label for="alda-input">Alda Input</label>
             <textarea class="form-control" id="alda-input" onChange={this.handleChange} rows="3"></textarea>
           </div>
-          <button id="alda-input-button" type="button" onClick={this.props.handleClick(this.state.input)} class="btn btn-primary">
+          <button id="alda-input-button" type="button" onClick={this.handleClick} class="btn btn-primary">
             Run Code
           </button>
         </form>

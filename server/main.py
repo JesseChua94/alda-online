@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 import os
@@ -16,11 +17,21 @@ app = FastAPI(
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-@app.get('/')
-async def index(request: Request):
-    os.environ['BASE_URL'] = str(request.base_url)
-    
-    return
+origins = [
+    "http://localhost:3000",
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+os.environ['BASE_URL'] = "http://127.0.0.1:8000/"
 
 
 app.include_router(

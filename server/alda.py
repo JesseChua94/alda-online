@@ -23,6 +23,8 @@ async def post_alda(post_body: PostRequestAlda):
     """
     alda_code = post_body.data
     file_path = os.getenv('BASE_URL') + 'static/alda_output'
+    #file_path = 'http://localhost:8000/' + 'static/alda_output'
+
     result = subprocess.run(['alda', 'export', '--code', alda_code, 
                             '-o', file_path + '.mid', '-F', 'midi'], 
                             stdout=subprocess.PIPE)

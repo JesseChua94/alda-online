@@ -9,7 +9,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      filePath: ""
+      filePath: " "
     }
   }
 
@@ -21,15 +21,15 @@ class App extends Component {
   * either the error that occurred or a string representing the file path for the mp3 file.
   */
   postAudio = async (aldaCode) => {
-    const response = await fetch('/alda', 
-                                    {
-                                        method: 'post',
-                                        headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({'data': aldaCode})
-                                });
+    const response = await fetch('http://127.0.0.1:8000/alda', 
+                              {
+                                method: 'POST',
+                                headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                              },
+                              body: JSON.stringify({'data': aldaCode})
+                            });
     if (response.status !== 200) {
       throw Error(response.statusText);
     }
@@ -45,9 +45,9 @@ class App extends Component {
   handleClick = async (input) => {
     try {
       const data = await this.postAudio(input);
-      this.setState = {
+      this.setState({
         filePath: data['data']
-      };
+      });
 
     } catch(error) {
         console.log("Error processing request: " + error.toString());
