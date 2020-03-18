@@ -9,7 +9,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      filePath: " "
+      fileLocation: ""
     }
   }
 
@@ -21,7 +21,7 @@ class App extends Component {
   * either the error that occurred or a string representing the file path for the mp3 file.
   */
   postAudio = async (aldaCode) => {
-    const response = await fetch('http://127.0.0.1:8000/alda', 
+    const response = await fetch(process.env.REACT_APP_SERVER_URL + '/alda', 
                               {
                                 method: 'POST',
                                 headers: {
@@ -46,7 +46,7 @@ class App extends Component {
     try {
       const data = await this.postAudio(input);
       this.setState({
-        filePath: data['data']
+        fileLocation: process.env.REACT_APP_SERVER_URL + data['data']
       });
 
     } catch(error) {
@@ -58,7 +58,7 @@ class App extends Component {
     return (
       <div className="App">
         <TextInput handleClick={this.handleClick}/>
-        <Audio filePath={this.state.filePath}/>
+        <Audio fileLocation={this.state.fileLocation}/>
       </div>
     );
   }

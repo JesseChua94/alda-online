@@ -31,9 +31,6 @@ app.add_middleware(
 )
 
 
-os.environ['BASE_URL'] = "http://127.0.0.1:8000/"
-
-
 app.include_router(
     alda_router,
     prefix="/alda",
