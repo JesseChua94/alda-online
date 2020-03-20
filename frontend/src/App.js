@@ -1,15 +1,35 @@
 import React, {Component} from "react";
 import "./App.css";
 
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-alda";
+import "ace-builds/src-noconflict/theme-monokai";
+
+
 import Audio from './Audio';
 import TextInput from './TextInput';
+
+
+
 
 class App extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      fileLocation: ""
+      fileLocation: "",
+      editorValue: ""
+    }
+  }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+    // This is a workaround to fix react-ace component from rerendering 
+    // everytime onChange is called and clearing the editor.
+    if (this.state.editorValue !== nextState.editorValue) {
+      return false
+    } else {
+      return true;
     }
   }
 
@@ -42,23 +62,39 @@ class App extends Component {
     return data;
   }
 
-  handleClick = async (input) => {
-    try {
-      const data = await this.postAudio(input);
-      this.setState({
-        fileLocation: process.env.REACT_APP_SERVER_URL + data['data']
-      });
+  AceEditorOnChange = (value) => {
+    this.setState({
+      editorValue: value
+    });
+  }
 
-    } catch(error) {
-        console.log("Error processing request: " + error.toString());
-    }
+  TextInputHandleClick = async (input) => {
+    // try {
+    //   const data = await this.postAudio(input);
+    //   this.setState({
+    //     fileLocation: process.env.REACT_APP_SERVER_URL + data['data']
+    //   });
+
+    // } catch(error) {
+    //     console.log("Error processing request: " + error.toString());
+    // }
   }
 
   render() {
     return (
       <div className="App">
-        <TextInput handleClick={this.handleClick}/>
+        <TextInput handleClick={this.TextInputHandleClick}/>
         <Audio fileLocation={this.state.fileLocation}/>
+
+        <AceEditor
+          ref="aceEditor"
+          mode="alda"
+          theme="monokai"
+          onChange={this.AceEditorOnChange}
+          name="editor"
+          editorProps={{ $blockScrolling: true }}
+        />
+        
       </div>
     );
   }
