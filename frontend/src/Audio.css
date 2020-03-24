@@ -1,0 +1,15 @@
+#audio {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+}
+
+@media screen and (max-width: 990px) {
+    #audio {
+        display: block;
+        left: 0%;
+        position: relative;
+        margin-left: 0px;
+    }
+}

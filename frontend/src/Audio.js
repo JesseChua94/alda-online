@@ -1,4 +1,5 @@
 import React from "react";
+import './Audio.css'
 
 class Audio extends React.Component {
   constructor(props) {
@@ -11,9 +12,9 @@ class Audio extends React.Component {
         this.audioRef.current.load();
     }
     return (
-      <div>
-        <audio crossOrigin="anonymous" controls id="audio-controls" ref={this.audioRef}>
-          <source id="alda-audio" src={this.props.fileLocation} type="audio/mpeg" />
+      <div id="audio">
+        <audio crossOrigin="anonymous" controls ref={this.audioRef}>
+          <source src={this.props.fileLocation} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
       </div>
