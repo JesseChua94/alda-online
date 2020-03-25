@@ -23,7 +23,23 @@ class About extends Component {
               About
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body>...</Modal.Body>
+          <Modal.Body>
+          <h4>What is Alda Online?</h4>
+            <p>Alda Online is a web application that allows users to play around with the Alda music programming language 
+            on their web browser without having to set up anything locally.</p>
+
+            <h4>What is Alda?</h4>
+            <p>Alda is a "text-based programming language for music composition". It's a simple way for anyone to start composing their own 
+            music without having to learn a scorewriting program like Sibelius. More can be found here at the original project <a href="https://alda.io/" target="_blank">link</a>.</p>
+          
+            <h4>How do I use Alda?</h4>
+            <p>The full Alda tutorial can be found on the original project link <a href="https://alda.io/tutorial/" target="_blank">here</a>.</p>
+
+            <h4>Disclaimer</h4>
+            <p>This project is in no way directly associated with the official Alda project. The original project by Dave Yarwood can be found here!: <a href="https://alda.io/" target="_blank">https://alda.io/</a>.</p>
+
+
+          </Modal.Body>
         </Modal>
         </div>
         )
