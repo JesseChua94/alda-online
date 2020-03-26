@@ -16,10 +16,11 @@ class App extends Component {
     super(props);
 
     this.state = {
-      fileLocation: "",
+      filePath: "",
       editorValue: "",
       showAboutModal: false,
-      running: false
+      running: false,
+      reloadAudio: false
     };
   }
 
@@ -69,6 +70,12 @@ class App extends Component {
     });
   };
 
+  onAudioLoad = () => {
+    this.setState({
+      reloadAudio: false
+    });
+  }
+
   aldaHandleClick = async () => {
     try {
       this.setState({
@@ -76,7 +83,8 @@ class App extends Component {
       });
       const data = await this.postAudio(this.state.editorValue);
       this.setState({
-        fileLocation: process.env.REACT_APP_SERVER_URL + data["data"]
+        filePath: process.env.REACT_APP_SERVER_URL + data["data"],
+        reloadAudio: true
       });
     } catch (error) {
       console.log("Error processing request: " + error.toString());
@@ -113,7 +121,7 @@ class App extends Component {
             <Nav className="mr-auto">
               <Nav.Link onClick={this.openAboutModal}>About</Nav.Link>
             </Nav>
-            <Audio fileLocation={this.state.fileLocation} />
+            <Audio filePath={this.state.filePath} onAudioLoad={this.onAudioLoad} reloadAudio={this.state.reloadAudio}/>
             {button}
           </Navbar.Collapse>
         </Navbar>
