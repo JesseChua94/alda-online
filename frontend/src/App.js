@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-alda";
-import "ace-builds/src-noconflict/theme-monokai";
-
 import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import Spinner from "react-bootstrap/Spinner";
 
 import About from "./About";
 import Audio from "./Audio";
+import Editor from "./Editor";
 
 
 class App extends Component {
@@ -20,19 +18,10 @@ class App extends Component {
     this.state = {
       fileLocation: "",
       editorValue: "",
-      showAboutModal: false
+      showAboutModal: false,
+      running: false
     };
   }
-
-  shouldComponentUpdate = (nextProps, nextState) => {
-    // This is a workaround to fix react-ace component from rerendering
-    // everytime onChange is called and clearing the editor.
-    if (this.state.editorValue !== nextState.editorValue) {
-      return false;
-    } else {
-      return true;
-    }
-  };
 
   /**
    * Takes an Alda formatted string and sends it to server to be
@@ -82,16 +71,39 @@ class App extends Component {
 
   aldaHandleClick = async () => {
     try {
+      this.setState({
+        running: true
+      });
       const data = await this.postAudio(this.state.editorValue);
       this.setState({
         fileLocation: process.env.REACT_APP_SERVER_URL + data["data"]
       });
     } catch (error) {
       console.log("Error processing request: " + error.toString());
+    } finally {
+      this.setState({
+        running: false
+      });
     }
   };
 
   render() {
+    let button;
+    if (this.state.running) {
+      button = (<Button variant="success" disabled>
+        <Spinner
+          as="span"
+          animation="grow"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />
+        Running...
+      </Button>);
+    } else {
+      button = <Button onClick={this.aldaHandleClick} variant="outline-success">Run Code</Button>;  
+    }
+
     return (
       <div className="App">
         <Navbar bg="light" expand="lg">
@@ -102,21 +114,10 @@ class App extends Component {
               <Nav.Link onClick={this.openAboutModal}>About</Nav.Link>
             </Nav>
             <Audio fileLocation={this.state.fileLocation} />
-            <Button onClick={this.aldaHandleClick} variant="outline-success">Run Code</Button>
+            {button}
           </Navbar.Collapse>
-          
         </Navbar>
-        <AceEditor
-          ref="aceEditor"
-          mode="alda"
-          theme="monokai"
-          onChange={this.aceEditorOnChange}
-          name="editor"
-          width="100%"
-          height="100%"
-          showPrintMargin={false}
-          useSoftTabs={true}
-        />
+        <Editor onChange={this.aceEditorOnChange}/>
         <About show={this.state.showAboutModal} onClick={this.closeAboutModal} />
       </div>
     );
