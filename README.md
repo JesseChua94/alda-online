@@ -20,7 +20,7 @@ Please continue reading if you would like to run the project locally (for the ti
 
 #### Backend Server
 
-1.git clone https://github.com/JesseChua94/alda-online.git
+1. git clone https://github.com/JesseChua94/alda-online.git
 
 2. cd alda-online
 
