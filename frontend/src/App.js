@@ -10,6 +10,8 @@ import Audio from "./Audio";
 import Editor from "./Editor";
 import Error from "./Error";
 
+import {snippet} from "./utils/aldaSnippet.js"
+
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +19,7 @@ class App extends Component {
 
     this.state = {
       filePath: "",
-      editorValue: "",
+      editorValue: snippet,
       errorMsg: "",
       showAbout: false,
       showError: false,

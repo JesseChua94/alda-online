@@ -1,9 +1,12 @@
 import React from "react";
-import "./Editor.css";
 
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-alda";
 import "ace-builds/src-noconflict/theme-monokai";
+
+import "./Editor.css";
+
+import {snippet} from "./utils/aldaSnippet.js"
 
 class Editor extends React.Component {
   shouldComponentUpdate = (nextProps, nextState) => {
@@ -12,12 +15,13 @@ class Editor extends React.Component {
     return false;
   };
 
-  render() { 
+  render() {
     return (
       <AceEditor
         ref="aceEditor"
         mode="alda"
         theme="monokai"
+        value={snippet}
         onChange={this.props.onChange}
         name="editor"
         width="100%"
