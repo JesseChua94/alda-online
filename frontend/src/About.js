@@ -3,18 +3,14 @@ import "./About.css";
 import Modal from "react-bootstrap/Modal";
 
 class About extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="About">
         <Modal
           size="lg"
-          show={this.props.show}
+          show={true}
           dialogClassName="right-fade"
-          onHide={this.props.onClick}
+          onHide={(this.props.onClick)}
           scrollable={true}
           aria-labelledby="example-modal-sizes-title-lg"
         >
@@ -34,7 +30,7 @@ class About extends Component {
               Alda is a "text-based programming language for music composition".
               It's a simple way for anyone to start composing their own music
               without having to learn a scorewriting program like Sibelius. More
-              can be found here at the original project{" "}
+              info can be found here: {" "}
               <a href="https://alda.io/" target="_blank">
                 link
               </a>
@@ -43,7 +39,7 @@ class About extends Component {
 
             <h4>How do I use Alda?</h4>
             <p>
-              The full Alda tutorial can be found on the original project link{" "}
+              The full Alda tutorial can be found here: {" "}
               <a href="https://alda.io/tutorial/" target="_blank">
                 here
               </a>

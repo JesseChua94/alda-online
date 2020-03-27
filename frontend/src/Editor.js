@@ -6,10 +6,6 @@ import "ace-builds/src-noconflict/mode-alda";
 import "ace-builds/src-noconflict/theme-monokai";
 
 class Editor extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   shouldComponentUpdate = (nextProps, nextState) => {
     // This is a workaround to fix the react-ace component from rerendering
     // everytime onChange is called and clearing the editor.
@@ -30,7 +26,7 @@ class Editor extends React.Component {
         useSoftTabs={true}
       />
     )
-  }
-}
+  };
+};
 
 export default Editor;

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 
 import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,6 +8,7 @@ import Spinner from "react-bootstrap/Spinner";
 import About from "./About";
 import Audio from "./Audio";
 import Editor from "./Editor";
+import Error from "./Error";
 
 
 class App extends Component {
@@ -18,7 +18,9 @@ class App extends Component {
     this.state = {
       filePath: "",
       editorValue: "",
-      showAboutModal: false,
+      errorMsg: "",
+      showAbout: false,
+      showError: false,
       running: false,
       reloadAudio: false
     };
@@ -41,40 +43,16 @@ class App extends Component {
       body: JSON.stringify({ data: aldaCode })
     });
     if (response.status !== 200) {
-      throw Error(response.statusText);
+      throw new Error(response.statusText);
     }
 
     const data = await response.json();
     if (data["status"] !== 200) {
-      throw Error(data["data"]);
+      throw new Error(data["data"]);
     }
 
     return data;
   };
-
-  aceEditorOnChange = (value) => {
-    this.setState({
-      editorValue: value
-    });
-  };
-
-  closeAboutModal = (show) => {
-    this.setState({
-      showAboutModal: false
-    });
-  };
-
-  openAboutModal = () => {
-    this.setState({
-      showAboutModal: true
-    });
-  };
-
-  onAudioLoad = () => {
-    this.setState({
-      reloadAudio: false
-    });
-  }
 
   aldaHandleClick = async () => {
     try {
@@ -87,12 +65,51 @@ class App extends Component {
         reloadAudio: true
       });
     } catch (error) {
-      console.log("Error processing request: " + error.toString());
+      this.setState({
+        showError: true,
+        errorMsg: "Error processing request: " + error.props
+      });
     } finally {
       this.setState({
         running: false
       });
     }
+  };
+
+  aceEditorOnChange = (value) => {
+    this.setState({
+      editorValue: value
+    });
+  };
+
+  closeAbout = () => {
+    this.setState({
+      showAbout: false
+    });
+  };
+
+  openAbout = () => {
+    this.setState({
+      showAbout: true
+    });
+  };
+
+  closeError = () => {
+    this.setState({
+      showError: false
+    });
+  };
+
+  openError = () => {
+    this.setState({
+      showError: true
+    });
+  };
+
+  onAudioLoad = () => {
+    this.setState({
+      reloadAudio: false
+    });
   };
 
   render() {
@@ -119,17 +136,20 @@ class App extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link onClick={this.openAboutModal}>About</Nav.Link>
+              <Nav.Link onClick={this.openAbout}>About</Nav.Link>
             </Nav>
             <Audio filePath={this.state.filePath} onAudioLoad={this.onAudioLoad} reloadAudio={this.state.reloadAudio}/>
             {button}
           </Navbar.Collapse>
         </Navbar>
         <Editor onChange={this.aceEditorOnChange}/>
-        <About show={this.state.showAboutModal} onClick={this.closeAboutModal} />
+        {this.state.showAbout && 
+        <About onClick={this.closeAbout} />}
+        {this.state.showError && 
+        <Error errorMsg={this.state.errorMsg} onClose={this.closeError} />}
       </div>
     );
-  }
-}
+  };
+};
 
 export default App;

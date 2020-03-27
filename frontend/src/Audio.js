@@ -5,8 +5,7 @@ class Audio extends React.Component {
   constructor(props) {
     super(props);
     this.audioRef = React.createRef();
-    this.oldPath = "";
-  }
+  };
 
   render() {
     //Only reload audio HTML element for new audio files.
@@ -23,7 +22,7 @@ class Audio extends React.Component {
         </audio>
       </div>
     );
-    }
-}
+  };
+};
 
 export default Audio;
