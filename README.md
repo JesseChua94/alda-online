@@ -4,7 +4,7 @@ Alda Online aims to make the Alda music programming language more accessible via
 
 Please continue reading if you would like to run the project locally (for the time being this is the only option as I currently work on getting this hosted).
 
-### Requirements
+## Requirements
 
 -python<=3.6 
 
@@ -14,11 +14,12 @@ Please continue reading if you would like to run the project locally (for the ti
 
 -alda (https://github.com/alda-lang/alda)
 
-### How to Run
+## How to Run
 
 1. Follow instructions on Alda git page to install and get server running.
 
-Backend Server
+#### Backend Server
+
 1.git clone https://github.com/JesseChua94/alda-online.git
 
 2. cd alda-online
@@ -27,7 +28,7 @@ Backend Server
 
 4. uvicorn main:app
 
-Frontend
+#### Frontend
 1. cd alda-online/frontend && npm install
 
 2. cp ./mode-alda.js node_modules/ace-builds/src-noconflict/  # This is a prebuilt library that the editor currently relies on for syntax highlighting. As of writing, the merged pr I created on the original project has not been reflected in the prebuilt repo so this file has to be moved in manually.
