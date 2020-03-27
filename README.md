@@ -38,7 +38,8 @@ Please continue reading if you would like to run the project locally (for the ti
 4. Go to http://localhost:8888/
 
 
-Disclaimer
+## Disclaimer
+
 This project is not directly associated with the Alda project.
 
 TODO
