@@ -16,8 +16,8 @@ class Audio extends React.Component {
     
     return (
       <div id="audio">
-        <audio crossOrigin="anonymous" controls ref={this.audioRef}>
-          <source src={this.props.filePath} type="audio/mpeg" />
+        <audio controls ref={this.audioRef}>
+        <source src={this.props.filePath} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
       </div>

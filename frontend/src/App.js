@@ -59,11 +59,13 @@ class App extends Component {
   aldaHandleClick = async () => {
     try {
       this.setState({
-        running: true
+        running: true,
+        showError: false
       });
       const data = await this.postAudio(this.state.editorValue);
+      console.log(data['data']);
       this.setState({
-        filePath: process.env.REACT_APP_SERVER_URL + data["data"],
+        filePath: "data:audio/mpeg;base64," + data["data"],
         reloadAudio: true
       });
     } catch (error) {

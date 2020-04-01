@@ -31,7 +31,7 @@ class About extends Component {
               It's a simple way for anyone to start composing their own music
               without having to learn a scorewriting program like Sibelius. More
               info can be found here: {" "}
-              <a href="https://alda.io/" target="_blank">
+              <a href="https://alda.io/" target="_blank" rel="noopener noreferrer">
                 link
               </a>
               .
@@ -40,7 +40,7 @@ class About extends Component {
             <h4>How do I use Alda?</h4>
             <p>
               The full Alda tutorial can be found here: {" "}
-              <a href="https://alda.io/tutorial/" target="_blank">
+              <a href="https://alda.io/tutorial/" target="_blank" rel="noopener noreferrer">
                 here
               </a>
               .
@@ -51,7 +51,7 @@ class About extends Component {
               This project is in no way directly associated with the official
               Alda project. The original project by Dave Yarwood can be found
               here!:{" "}
-              <a href="https://alda.io/" target="_blank">
+              <a href="https://alda.io/" target="_blank" rel="noopener noreferrer">
                 https://alda.io/
               </a>
               .

@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Request
 
+import base64
 from datetime import datetime
 import os
 import subprocess
@@ -40,7 +41,9 @@ async def post_alda(post_body: PostRequestAlda):
     else:
         command = "timidity {} -Ow -o - | lame - -b 64 {}".format(midi_path, mp3_path)
         subprocess.run(command, shell=True)
-        response =  {'data': file_name + '.mp3',
+        f = open(mp3_path, 'rb').read()
+        b = base64.b64encode(f)
+        response =  {'data': b,
                      'status': 200}
                     
     return response

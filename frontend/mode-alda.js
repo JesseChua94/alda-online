@@ -9,10 +9,24 @@ ace.define("ace/mode/alda_highlight_rules",["require","exports","module","ace/li
     var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 
     var AldaHighlightRules = function() {
-        // regexp must not have capturing parentheses. Use (?:) instead.
-        // regexps are ordered -> the first match is used
     
         this.$rules = {
+            pitch: [{
+                token: "variable.parameter.operator.pitch.alda",
+                regex: /(?:[+\-]+|\=)/
+            }, {
+                token: "",
+                regex: "",
+                next: "timing"
+            }],
+            timing: [{
+                token: "string.quoted.operator.timing.alda",
+                regex: /\d+(?:s|ms)?/
+            }, {
+                token: "",
+                regex: "",
+                next: "start"
+            }],
             start: [{
                 token: [
                     "constant.language.instrument.alda",
@@ -62,10 +76,19 @@ ace.define("ace/mode/alda_highlight_rules",["require","exports","module","ace/li
                 regex: /\*\s*\d+/
             }, {
                 token: "string.quoted.operator.timing.alda",
-                regex: /[~.]|(?<=[cdefgab\+\-\}~])\d+(?:s|ms)?|r\d*(?:s|ms)?/
+                regex: /[.]|r\d*(?:s|ms)?/
+            },{
+                token: "text",
+                regex: /([cdefgab])/,
+                next: "pitch"
             }, {
-                token: "variable.parameter.operator.pitch.alda",
-                regex: /(?<=[cdefgab])(?:[+\-]+|\=)/
+                token: "string.quoted.operator.timing.alda",
+                regex: /~/,
+                next: "timing"
+            }, {
+                token: "punctuation.section.embedded.cram.alda",
+                regex: /\}/,
+                next: "timing"
             }, {
                 token: "constant.numeric.subchord.alda",
                 regex: /\//
@@ -106,7 +129,7 @@ ace.define("ace/mode/alda_highlight_rules",["require","exports","module","ace/li
                     defaultToken: "meta.inline.clojure.alda"
                 }]
             }]
-        }
+        };
         
         this.normalizeRules();
     };
