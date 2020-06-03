@@ -2,7 +2,7 @@
 Alda Online aims to make the Alda music programming language more accessible via a web client. The original project by Dave Yarwood can be found here: https://github.com/alda-lang/alda.
 
 
-Please continue reading if you would like to run the project locally (for the time being this is the only option since hosting is quite expensive).
+For the time being, this project can only be run locally due to hosting costs.
 
 ## Requirements
 
@@ -39,6 +39,3 @@ Please continue reading if you would like to run the project locally (for the ti
 ## Disclaimer
 
 This project is not directly associated with the Alda project.
-
-TODO
-- Figure out how to run Alda server when Docker container starts.
